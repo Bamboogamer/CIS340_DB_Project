@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS wards (
     ward_name VARCHAR(30)	NOT NULL,
     ward_location VARCHAR(30)	NOT NULL,
     ward_charge_nurse_id VARCHAR(9) NOT NULL,
-	ward_bed_tally	INT 	NOT NULL,
+	ward_bed_tally	INT ,
     ward_phone_extn VARCHAR(4)	NOT NULL,
     PRIMARY KEY	(ward_id),
     FOREIGN KEY (ward_charge_nurse_id) REFERENCES staff(staff_id),
@@ -41,22 +41,22 @@ CREATE TABLE IF NOT EXISTS staff (
 );
 
 CREATE TABLE IF NOT EXISTS qualifications (
-	qualification_of_staff_id VARCHAR(9) NOT NULL,
+	staff_id VARCHAR(9) NOT NULL,
     qualification_type	VARCHAR(30) NOT NULL,
     qualification_date	DATE NOT NULL,
 	qualification_institution	VARCHAR(30) NOT NULL,
-    PRIMARY KEY (qualification_of_staff_id),
-    FOREIGN KEY (qualification_of_staff_id) REFERENCES staff(staff_id)
+    PRIMARY KEY (staff_id),
+    FOREIGN KEY (staff_id) REFERENCES staff(staff_id)
 );
 
 CREATE TABLE IF NOT EXISTS work_experience (
-	work_experience_of_staff_id VARCHAR(9) NOT NULL,
-    work_experience_position	VARCHAR(30) NOT NULL,
-    work_experience_start_date	DATE NOT NULL,
-    work_experience_end_date	DATE,
-	work_experience_organization	VARCHAR(30) NOT NULL,
-    PRIMARY KEY (work_experience_of_staff_id),
-    FOREIGN KEY (work_experience_of_staff_id) REFERENCES staff(staff_id)
+	staff_id VARCHAR(9) NOT NULL,
+    experience_position	VARCHAR(30) NOT NULL,
+    experience_start_date	DATE NOT NULL,
+    experience_end_date	DATE,
+	experience_organization	VARCHAR(30) NOT NULL,
+    PRIMARY KEY (staff_id),
+    FOREIGN KEY (staff_id) REFERENCES staff(staff_id)
 );
 
 CREATE TABLE IF NOT EXISTS patients (
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS patients (
     patient_sex	VARCHAR(1) NOT NULL,
     patient_marital_status	VARCHAR(30) NOT NULL,
     patient_hospital_registry_date	DATE NOT NULL,
-    patient_nok_phone_number	VARCHAR(15) NOT NULL,
+    nok_phone_number	VARCHAR(15) NOT NULL,
 	PRIMARY KEY (patient_id),
     FOREIGN KEY (patient_nok_phone_number) REFERENCES patients_next_of_kin(nok_phone_number)
 );
@@ -80,9 +80,9 @@ CREATE TABLE IF NOT EXISTS patients_next_of_kin (
 	nok_last_name	VARCHAR(30) NOT NULL,
 	nok_relationship_to_patient	VARCHAR(30) NOT NULL,
 	nok_addr	VARCHAR(255) NOT NULL,
-	nok_associated_patient_id	varchar(9) NOT NULL,		# do we need this? if linked by phone number
+	patient_id	varchar(9) NOT NULL,		
 	PRIMARY KEY (nok_phone_number),
-	FOREIGN KEY	(nok_associated_patient_id) REFERENCES patients(patient_id)
+	FOREIGN KEY	(patient_id) REFERENCES patients(patient_id)
 );
 
 CREATE TABLE IF NOT EXISTS local_doctors (
@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS inpatients (
     PRIMARY KEY(inpatient_id),
     FOREIGN KEY(inpatient_id) REFERENCES patients(patient_id),
     FOREIGN KEY(inpatient_required_ward_id) REFERENCES wards(ward_id),
-    CONSTRAINT BedExists_Ck CHECK (inpatient_bed_id <= 240)		#makes sure bed id doesn't exceed the 240 max
+    CONSTRAINT BedExists_Ck CHECK (inpatient_bed_id <= 240)		#makes sure bed id doesn't exceed the 240 max in hospital
 );
 
 CREATE TABLE IF NOT EXISTS patient_medication (
