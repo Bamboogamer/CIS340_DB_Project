@@ -66,12 +66,12 @@ CREATE TABLE IF NOT EXISTS experience (
 );
 
 CREATE TABLE IF NOT EXISTS local_doctors(
+	local_doctor_id	VARCHAR(9),
 	clinic_phone_number	VARCHAR(15),
 	local_doctor_first_name	VARCHAR(30) NOT NULL,
 	local_doctor_last_name	VARCHAR(30) NOT NULL,
 	clinic_addr	VARCHAR(255) NOT NULL,
-    clinic_id	VARCHAR(9),
-	PRIMARY KEY (clinic_phone_number)
+	PRIMARY KEY (local_doctor_id)
 );
 
 CREATE TABLE IF NOT EXISTS next_of_kin (
@@ -94,10 +94,10 @@ CREATE TABLE IF NOT EXISTS patients (
 	patient_marital_status	VARCHAR(30) NOT NULL,
 	patient_registry_date	DATE NOT NULL,
 	nok_phone_number		VARCHAR(15) NOT NULL,
-	clinic_phone_number 	VARCHAR(15) NOT NULL,
+	local_doctor_id	VARCHAR(9) NOT NULL,
 	PRIMARY KEY (patient_id),
-    FOREIGN KEY (clinic_phone_number) REFERENCES local_doctors(clinic_phone_number),
-    FOREIGN KEY (nok_phone_number) REFERENCES next_of_kin(nok_phone_number)
+	FOREIGN KEY (local_doctor_id) REFERENCES local_doctors(local_doctor_id),
+	FOREIGN KEY (nok_phone_number) REFERENCES next_of_kin(nok_phone_number)
 );
 
 CREATE TABLE IF NOT EXISTS patient_appointments (
