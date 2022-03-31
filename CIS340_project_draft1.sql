@@ -46,7 +46,7 @@ ADD FOREIGN KEY (charge_nurse_id) REFERENCES staff(staff_id);
 
 CREATE TABLE IF NOT EXISTS qualifications (
 	staff_id VARCHAR(9),
-    qualifiaction_num INT,
+	qualifiaction_num INT,
 	qualification_type	VARCHAR(30) NOT NULL,
 	qualification_date	DATE NOT NULL,
 	qualification_institution	VARCHAR(30) NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS qualifications (
 
 CREATE TABLE IF NOT EXISTS experience (
 	staff_id VARCHAR(9),
-    experience_num INT,
+	experience_num INT,
 	experience_position	VARCHAR(30) NOT NULL,
 	experience_start_date	DATE NOT NULL,
 	experience_end_date	DATE,
